@@ -22,7 +22,7 @@ calls_in = 0
 calls_out = 0
 failed_in = 0
 failed_out = 0
-
+registrations = 0
 
 ###################
 # Check Functions #
@@ -36,6 +36,7 @@ def parse_freeswitch(string_table):
     global calls_out
     global failed_in
     global failed_out
+    global registrations
     ingw = False
     inst = False
 
@@ -89,7 +90,12 @@ def parse_freeswitch(string_table):
             if debug:
                 print("Calls out: " + str(calls_out))
 
-    return gateways, swstatus, calls_in, failed_in, calls_out, failed_out
+        elif "REGISTRATIONS" in line[0]:
+            registrations = line[1]
+            if debug:
+                print("Registrations: " + str(registrations))
+
+    return gateways, swstatus, calls_in, failed_in, calls_out, failed_out, registrations
 
 def inventory_freeswitch(info):
     yield Result(state=State.OK, summary = gateways + "\n" + swstatus)
@@ -145,6 +151,8 @@ def check_freeswitch(section):
         percentage = "{:.0%}".format(failed_out_pct)
         text += "Outbound call failure " + percentage + "; "
 
+    text += str(registrations) + " Registrations"
+
     yield Result(state=status, summary=text)
     #yield Metric("calls_in", calls_in)
     #yield Metric("calls_out", calls_out)
@@ -152,7 +160,7 @@ def check_freeswitch(section):
 register.check_plugin(
     name = "freeswitch",
     service_name = "Freeswitch",
-#    inventory_function = inventory_freeswitch,
+    #inventory_function = inventory_freeswitch,
     discovery_function = discover_freeswitch,
     check_function = check_freeswitch
 )
