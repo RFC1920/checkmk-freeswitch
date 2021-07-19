@@ -7,7 +7,7 @@ These are set to 50% for critical and 30% for warn by default.
 Typical output:
  - High inbound call failure 39%; High outbound call failure 36%;
 
-We do collect switch and gateway status and work is underway to expose those somehow.
+We collect switch and gateway status and work is underway to expose those somehow.
 
 This is a version 2 plugin and as such will not work with older installs, e.g. 1.6.X or older.
 

@@ -146,6 +146,8 @@ def check_freeswitch(section):
         text += "Outbound call failure " + percentage + "; "
 
     yield Result(state=status, summary=text)
+    #yield Metric("calls_in", calls_in)
+    #yield Metric("calls_out", calls_out)
 
 register.check_plugin(
     name = "freeswitch",
